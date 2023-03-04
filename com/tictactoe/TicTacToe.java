@@ -8,9 +8,9 @@ public class TicTacToe {
     private boolean isX=true;
     private Scanner sc=new Scanner(System.in);
 
-    private String board[]=new String[10];
+    private String board[]=new String[9];
     private void setBoard(){
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 9; i++) {
             board[i]="";
         }
         this.player="X";
@@ -31,7 +31,7 @@ public class TicTacToe {
         }
     }
     private boolean checkWin(){
-        int possibility[][]=new int[][]{{1,2,3},{4,5,6},{7,8,9},{1,4,7},{2,5,8},{3,6,9},{1,5,9},{3,5,7}};
+        int possibility[][]=new int[][]{{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}};
         for (int i = 0; i < possibility.length; i++) {
             if(board[possibility[i][0]].equals(player) && board[possibility[i][1]].equals(player) && board[possibility[i][2]].equals(player)){
                 return true;
@@ -45,13 +45,18 @@ public class TicTacToe {
     }
     private void play(){
         this.setBoard();
+        int i=0;
             while (true){
                 this.printBoard();
                 System.out.println("Enter the Position: ");
+                i++;
                 try {
                     int pos = sc.nextInt();
                     if(this.posAvailable(pos)){
                         this.updateBoard(pos);
+                    }else {
+                        System.out.println("That position is not Available");
+                        continue;
                     }
                     if(this.checkWin()){
                         this.printBoard();
@@ -71,30 +76,23 @@ public class TicTacToe {
                 }
             }
     }
-
     private boolean checkDraw() {
         for (String s:board) {
-            if(s.isEmpty()){
+            if(s.isBlank()){
                 return false;
             }
         }
         return true;
     }
-
-
     private void updateBoard(int pos) {
         board[pos-1]=this.player;
     }
-
     private boolean posAvailable(int pos) throws IndexOutOfBoundsException {
-        if(board[pos-1].isEmpty()){
+        if(board[pos-1].isBlank()){
             return true;
         }
         return false;
     }
-
-
-
     public static void main(String[] args) {
         TicTacToe t= new TicTacToe();
         t.play();
